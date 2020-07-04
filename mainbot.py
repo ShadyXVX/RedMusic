@@ -42,4 +42,4 @@ for filename in os.listdir('./cogs'):
 
 
 # Set proper token and run the bot
-client.run('NzI4NTMwNjU1ODQ3MTIwOTY3.Xv7vmg.la8FrikKw50EpJgfyjcikwAsTmg')
+client.run('TOKEN_HERE')
