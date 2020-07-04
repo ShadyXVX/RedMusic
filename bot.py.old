@@ -1,0 +1,101 @@
+import discord
+from discord.ext import commands
+import logging
+import random
+
+client = commands.Bot(command_prefix='-')
+
+
+# ====== Start of logs handler ====== #
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+# ====== End of logs handler ====== #
+
+welcomeMessage = """**Welcome to the ThaQrew Discord Server**
+
+To get a specific role message on of these Admins:
+
+ <@317736367386001409>
+ <@293672252707176448>
+ <@243817973700231168>
+ 
+ 
+ __The Server IP of the TTT Server is:__ **TTT.FREYE.TECH** 
+ If you have any questions, just ask!"""
+
+commandsList = """**Commands List:**
+
+To greet the bot type: -hello
+To get a list of all commands type: -Help
+To get the number of users on this server type: -users
+To clear x messages type: -clear x"""
+
+@client.event
+async def on_ready():
+    print('Ready for playing communist music!')
+
+
+@client.event
+async def on_member_join(member):
+    user = client.get_user(member)
+    print(f'A new member of the name {member} just joined the server.')
+    try:
+     await user.send(welcomeMessage)
+     print(f'Welcome message has been sent to {member}.')
+    except:
+        print(f'Sending the message to {member} failed.')
+
+
+@client.command(aliases=['u'])
+async def users(ctx):
+    id = client.get_guild(563446469844271104)
+    await ctx.send(f'The server has {id.member_count} members!')
+
+
+@client.command(aliases=['h'])
+async def Help(ctx):
+    await ctx.send(commandsList)
+
+
+@client.command()
+async def hello(ctx):
+    await ctx.send("Hi, I am RedMusic! --- type -Help for a list of commands!")
+
+
+@client.command(aliases=['8ball'])
+async def eightBall(ctx, *, question):
+    responses = [
+"It is certain.",
+ "It is decidedly so.",
+ "Without a doubt.",
+ "Yes – definitely.",
+ "You may rely on it.",
+ "As I see it, yes.",
+ "Most likely.",
+ "Outlook good.",
+ "Yes.",
+ "Signs point to yes.",
+ "Reply hazy, try again.",
+ "Ask again later.",
+ "Better not tell you now.",
+ "Cannot predict now.",
+ "Concentrate and ask again.",
+ "Don't count on it.",
+ "My reply is no.",
+ "My sources say no.",
+ "Outlook not so good.",
+ "Very doubtful."]
+    await ctx.send(f'**Question:** {question} \n**Answer:** {random.choice(responses)}')
+
+
+@client.command()
+async def clear(ctx, number=10):
+    await ctx.channel.purge(limit=number)
+
+
+# Set proper token and run the bot
+client.run('NzI4NTMwNjU1ODQ3MTIwOTY3.Xv7vmg.la8FrikKw50EpJgfyjcikwAsTmg')
+
